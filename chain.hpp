@@ -7,8 +7,8 @@ template <typename T, typename U>
 class chain
 {
 private:
-    T _begin;
-    U _end;
+    // T _begin;
+    // U _end;
 
     class iterator
     {
@@ -30,11 +30,11 @@ private:
         }
         bool operator==(iterator &other)
         {
-            return (*TStart == *other.TStart) && (*UStart == *other.UStart);
+            return (TStart == other.TStart) && (UStart == other.UStart);
         }
         bool operator!=(iterator &other)
         {
-            return !((*TStart == *other.TStart) && (*UStart == *other.UStart));
+            return !((TStart == other.TStart) && (UStart == other.UStart));
         }
         iterator operator++()
         {
@@ -57,6 +57,8 @@ private:
     };
 
 public:
+  T _begin;
+    U _end;
     chain(T a, U b)
     {
         _begin = a;
