@@ -18,40 +18,6 @@ private:
 
     public:
         iterator(T a) : first(a) {}
-        //     auto operator*()
-        //     {
-        //         if (TStart != TEnd)
-        //         {
-        //             return TStart;
-        //         }
-        //         return UStart;
-        //     }
-        //     bool operator==(iterator &other)
-        //     {
-        //         return (TStart == other.TStart) && (UStart == other.UStart);
-        //     }
-        //     bool operator!=(iterator &other)
-        //     {
-        //         return !((TStart == other.TStart) && (UStart == other.UStart));
-        //     }
-        //     iterator operator++()
-        //     {
-        //         if (TStart != TEnd)
-        //         {
-        //             TStart++;
-        //         }
-        //         else
-        //         {
-        //             UStart++;
-        //         }
-        //         return *this;
-        //     }
-        //     iterator operator++(int)
-        //     {
-        //         iterator temp = *this;
-        //         ++*this;
-        //         return temp;
-        //     }
     };
 
 public:
