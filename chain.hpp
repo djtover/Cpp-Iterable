@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 using namespace std;
 
@@ -7,70 +8,63 @@ template <typename T, typename U>
 class chain
 {
 private:
-    // T _begin;
-    // U _end;
-
+    T first;
+    U second;
     class iterator
     {
     private:
-        T TStart;
-        T TEnd;
-        U UStart;
-        U UEnd;
+        T first;
+        U second;
 
     public:
-        iterator(T aStart, T aEnd, T bStart) : TStart(aStart), TEnd(aEnd), UStart(bStart) {}
-        auto operator*()
-        {
-            if (TStart != TEnd)
-            {
-                return TStart;
-            }
-            return UStart;
-        }
-        bool operator==(iterator &other)
-        {
-            return (TStart == other.TStart) && (UStart == other.UStart);
-        }
-        bool operator!=(iterator &other)
-        {
-            return !((TStart == other.TStart) && (UStart == other.UStart));
-        }
-        iterator operator++()
-        {
-            if (TStart != TEnd)
-            {
-                TStart++;
-            }
-            else
-            {
-                UStart++;
-            }
-            return *this;
-        }
-        iterator operator++(int)
-        {
-            iterator temp = *this;
-            ++*this;
-            return temp;
-        }
+        iterator(T a, U b) : first(a), second(b) {}
+        //     auto operator*()
+        //     {
+        //         if (TStart != TEnd)
+        //         {
+        //             return TStart;
+        //         }
+        //         return UStart;
+        //     }
+        //     bool operator==(iterator &other)
+        //     {
+        //         return (TStart == other.TStart) && (UStart == other.UStart);
+        //     }
+        //     bool operator!=(iterator &other)
+        //     {
+        //         return !((TStart == other.TStart) && (UStart == other.UStart));
+        //     }
+        //     iterator operator++()
+        //     {
+        //         if (TStart != TEnd)
+        //         {
+        //             TStart++;
+        //         }
+        //         else
+        //         {
+        //             UStart++;
+        //         }
+        //         return *this;
+        //     }
+        //     iterator operator++(int)
+        //     {
+        //         iterator temp = *this;
+        //         ++*this;
+        //         return temp;
+        //     }
     };
 
 public:
-  T _begin;
-    U _end;
-    chain(T a, U b)
+    chain(T a, U b) : first(a), second(b)
     {
-        _begin = a;
-        _end = b;
     }
-    iterator begin()
+    auto begin()
     {
-        
+        return first.begin();
     }
-    iterator end()
+    auto end()
     {
-       
+        return first.begin();
     }
 };
 

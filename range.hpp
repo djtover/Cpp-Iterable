@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 using namespace std;
 
@@ -15,52 +16,52 @@ private:
         T value;
 
     public:
-        iterator(int v) : value(v) {}
-        T operator*()
+        iterator(T v) : value(v) {}
+        T &operator*()
         {
             return value;
         }
-        bool operator==(iterator &other)
+        bool operator==(const iterator &other)const
         {
             return value == other.value;
         }
-        bool operator!=(iterator &other)
+        bool operator!=(const iterator &other) const
         {
-            return !(value == other.value);
+            return (this->value != other.value);
         }
-        iterator operator++(int)
+        iterator &operator++(int dc)
         {
             iterator temp = *this;
-            value++;
+            this->value++;
             return temp;
         }
-        iterator operator++()
+        iterator &operator++()
         {
             value++;
             return *this;
         }
     };
- T _begin;
+    T _begin;
     T _end;
 public:
     
     range(T a, T b)
     {
-        _begin = a;
-        _end = b;
+        this->_begin = a;
+        this->_end = b;
     }
     range(range &r)
     {
-        _begin = r.begin();
-        _end = r.end();
+        _begin = r._begin;
+        _end = r._end;
     }
     iterator begin()
     {
-        return iterator(_begin);
+        return iterator(this->_begin);
     }
     iterator end()
     {
-        return iterator(_end);
+        return iterator(this->_end);
     }
 };
 }; // namespace itertools
