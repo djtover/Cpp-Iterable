@@ -44,7 +44,10 @@ private:
     T _begin;
     T _end;
 public:
-    
+    range(){
+        _begin = NULL;
+        _end = NULL;
+    }
     range(T a, T b)
     {
         this->_begin = a;
