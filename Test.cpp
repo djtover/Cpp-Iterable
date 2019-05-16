@@ -26,106 +26,88 @@ int main()
 		// My Tests
 
 		testcase.setname("Range tests");
-		int num = 5;
+		string str = "";
 		for (int i : range(5, 9))
 		{
-			testcase.CHECK_OUTPUT(i, std::to_string(num));
-			num++;
+			str += to_string(i);
 		}
-		double d = 5.1;
+		testcase.CHECK_OUTPUT(str, "5678");
+		str = "";
 		for (double i : range(5.1, 9.1))
 		{
-			string str = to_string(d);
-			str.erase(str.find_last_not_of('0') + 1, string::npos);
-			testcase.CHECK_OUTPUT(i, str);
-			d++;
-		}
+			string s = to_string(i);
+			s.erase(s.find_last_not_of('0') + 1, string::npos);
 
-		char c = 'a';
+			str += s;
+		}
+		testcase.CHECK_OUTPUT(str, "5.16.17.18.1");
+
+		str = "";
 		for (char i : range('a', 'e'))
 		{
-			string str(1, c);
-			testcase.CHECK_OUTPUT(i, str);
-			c++;
+
+			str += i;
 		}
+		testcase.CHECK_OUTPUT(str, "abcd");
 
 		testcase.setname("tests for chain");
 		// first test range and range
-		num = 1;
+		str = "";
 		for (int i : chain(range(1, 4), range(5, 8)))
 		{
-			testcase.CHECK_OUTPUT(i, to_string(num));
-			num++;
-			if (num == 4)
-			{
-				num = 5;
-			}
+			str += to_string(i);
+			cout << i << endl;
 		}
+		testcase.CHECK_OUTPUT(str, "123567");
+
 		// second test range and string
-		c = 'a';
-		string s = "hello";
-		int j = 0;
+		str = "";
 		for (char i : chain(range('a', 'e'), string("hello")))
 		{
-			string str(1, c);
-			testcase.CHECK_OUTPUT(i, str);
-			c++;
-			if (c == 'e')
-			{
-				c = s.at(j);
-				j++;
-			}
+			str += i;
 		}
+		testcase.CHECK_OUTPUT(str, "abcdhello");
 
 		testcase.setname("tests for zip");
 		// first test range and string
-		num = 1;
-		s = "hello";
-		j = 0;
+		str = "";
 		for (auto pair : zip(range(1, 6), string("hello")))
 		{
-			string str1(1, s.at(j));
-			string str2 = to_string(num) + "," + str1;
-			testcase.CHECK_OUTPUT(pair, str2);
-			j++;
-			num++;
+
+			str += to_string(pair);
 		}
-
-		// second test, two ranges and two strings
-		int num1 = 1;
-		int num6 = 6;
-		string s1 = "xyz";
-		string s2 = "abc";
-		j = 0;
-
+		// second test of zipping two zips
+		testcase.CHECK_OUTPUT(str, "1,h2,e3,l4,l5,o");
+		str = "";
 		for (auto pair : zip(zip(range(1, 4), string("xyz")), zip(string("abc"), range(6, 9))))
 		{
-			string str1(1, s1.at(j));
-			string str2  (1, s2.at(j));
-			string str3 = to_string(num1) + "," + str1 + "," + str2 + "," + to_string(num6);
-			testcase.CHECK_OUTPUT(pair, str3);
-			num1++;
-			num6++;
-
-			j++;
+			str += pair;
 		}
+		testcase.CHECK_OUTPUT(str, "1,x,a,62,y,b,73,z,c,8");
 
 		testcase.setname("product test");
-		num1 = 1;
-		s = "hello";
-		j=0;
+		str = "";
 		for (auto pair : product(range(1, 4), string("hello")))
 		{
-			string str1(1,s.at(j));
-			string str2 = to_string(num1) +"," + str1;
-			testcase.CHECK_OUTPUT(pair,str2);
-			j++;
-			if(j==5){
-				num1++;
-				j++;
-			}
+			str += pair;
 		}
+		testcase.CHECK_OUTPUT(str, "1,h  1,e  1,l  1,l  1,o  2,h  2,e  2,l  2,l  2,o  3,h  3,e  3,l  3,l  3,o");
 
+		testcase.setname("powerset tests");
+		// first test
+		str = "";
+		for (auto subset : powerset(range(1, 4)))
+		{
+			str += subset;
+		}
+		testcase.CHECK_OUTPUT(str, "{}{1}{2}{1,2}{3}{1,3}{2,3}{1,2,3}");
+		// second test
+		str = "";
+		for (auto subset : powerset(chain(range('a', 'c'), range('x', 'z'))))
+		{
+			str += subset;
+		}
+		testcase.CHECK_OUTPUT(str, "{}{a}{b}{a,b}{x}{a,x}{b,x}{a,b,x}{y}{a,y}{b,y}{a,b,y}{x,y}{a,x,y}{b,x,y}{a,b,x,y}");
 		grade = testcase.grade();
 		right = testcase.right();
 		wrong = testcase.wrong();
