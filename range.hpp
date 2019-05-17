@@ -1,70 +1,79 @@
+
+
 #pragma once
 #include <iostream>
 using namespace std;
 
 namespace itertools
 {
-template <typename T>
-class range
-{
 
+template <typename T>
+class rangeIt
+{
 private:
+    T _begin;
+    T _end;
+
+public:
+    rangeIt(T &a, T &b) : _begin(a), _end(b){};
+
     class iterator
     {
-
     private:
-        T value;
+        T valuePtr;
 
     public:
-        iterator(T v) : value(v) {}
+        iterator(T ptr)
+        {
+            this->valuePtr = ptr;
+        }
+
         T &operator*()
         {
-            return value;
+            return valuePtr;
         }
-        bool operator==(const iterator &other)const
+        bool operator==(const iterator &other) const
         {
-            return value == other.value;
+            return valuePtr == other.valuePtr;
         }
         bool operator!=(const iterator &other) const
         {
-            return (this->value != other.value);
+            return valuePtr != other.valuePtr;
         }
-        iterator &operator++(int dc)
+
+        iterator &operator=(const iterator &other)
         {
-            iterator temp = *this;
-            this->value++;
-            return temp;
+            valuePtr = other.valuePtr;
+            return *this;
+        }
+        const iterator operator++(int)
+        {
+            iterator tmp = *this;
+            valuePtr++;
+            return tmp;
         }
         iterator &operator++()
         {
-            value++;
+            valuePtr++;
             return *this;
         }
     };
-    T _begin;
-    T _end;
-public:
-    range(){
-        _begin = NULL;
-        _end = NULL;
-    }
-    range(T a, T b)
-    {
-        this->_begin = a;
-        this->_end = b;
-    }
-    range(range &r)
-    {
-        _begin = r._begin;
-        _end = r._end;
-    }
+
     iterator begin()
     {
-        return iterator(this->_begin);
+        return iterator{_begin};
     }
+
     iterator end()
     {
-        return iterator(this->_end);
+        return iterator{_end};
     }
 };
-}; // namespace itertools
+
+template <typename T>
+rangeIt<T> range(T s, T e)
+{
+    return rangeIt<T>(s, e);
+}
+
+} // namespace itertools

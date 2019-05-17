@@ -1,71 +1,109 @@
 #pragma once
 #include <iostream>
 using namespace std;
-
 namespace itertools
 {
 template <typename T, typename U>
-class chain
+class chainIt
 {
+
 private:
-    T first;
-    U second;
+    const pair<T,T> first;
+    const pair<U,U> second;
+
+public:
+    chainIt(pair<T,T> a, pair<U,U> b) : first(a), second(b){}
+
     class iterator
     {
     private:
-        T first;
-        U second;
+        bool inFirst;
+        pair<T,T> firstP;
+        pair<U,U> secondP;
 
     public:
-        iterator(T a, U b) : first(a), second(b) {}
-        //     auto operator*()
-        //     {
-        //         if (TStart != TEnd)
-        //         {
-        //             return TStart;
-        //         }
-        //         return UStart;
-        //     }
-        //     bool operator==(iterator &other)
-        //     {
-        //         return (TStart == other.TStart) && (UStart == other.UStart);
-        //     }
-        //     bool operator!=(iterator &other)
-        //     {
-        //         return !((TStart == other.TStart) && (UStart == other.UStart));
-        //     }
-        //     iterator operator++()
-        //     {
-        //         if (TStart != TEnd)
-        //         {
-        //             TStart++;
-        //         }
-        //         else
-        //         {
-        //             UStart++;
-        //         }
-        //         return *this;
-        //     }
-        //     iterator operator++(int)
-        //     {
-        //         iterator temp = *this;
-        //         ++*this;
-        //         return temp;
-        //     }
-    };
+        iterator(pair<T,T> a, pair<U,U> b, bool flag) : firstP(a), secondP(b), inFirst(flag){};
 
+        auto &operator*()
+        {
+            if (inFirst){
+                return *firstP.first;
+            }
+            return *secondP.first;
+        }
+
+        bool operator==(const iterator &other) const
+        {
+            if (inFirst){
+                return firstP.first == other.firstP.second;
+            }
+            return secondP.first == other.secondP.second;
+        }
+
+        
+
+        iterator &operator=(const iterator &other)
+        {
+            firstP = other.firstP;
+            secondP = other.secondP;
+            inFirst = other.inFirst;
+            return *this;
+        }
+
+        bool operator!=(const iterator &other) const
+        {
+
+            if (inFirst){
+                return firstP.first != other.firstP.second;
+
+            }
+            return secondP.first != other.secondP.second;
+        }
+        iterator &operator++()
+        {
+            if (inFirst)
+            {
+                if (++firstP.first == firstP.second){
+                    inFirst = false;
+                }
+
+                return *this;
+            }
+            secondP.first++;
+            return *this;
+        }
+        const iterator operator++(int)
+        {
+            iterator temp = *this;
+            if (inFirst)
+            {
+                if (++firstP.first == firstP.second)
+                    inFirst = false;
+                return *this;
+            }
+            secondP.first++;
+            return temp;
+        }
+    };
 public:
-    chain(T a, U b) : first(a), second(b)
+    auto begin() 
     {
+        return iterator{first, second, true};
     }
-    auto begin()
+
+    auto end() 
     {
-        return first.begin();
-    }
-    auto end()
-    {
-        return first.begin();
+        return iterator{first, second, false};
     }
 };
 
-}; // namespace itertools
+template <typename T, typename U>
+auto chain(T first, U second)
+{
+    pair<decltype(first.begin()), decltype(first.end())> firstP(first.begin(), first.end());
+    pair<decltype(second.begin()), decltype(second.end())> secondP(second.begin(), second.end());
+
+    return chainIt<decltype(first.begin()), decltype(second.begin())>(firstP, secondP);
+}
+
+} // namespace itertools
