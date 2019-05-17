@@ -56,7 +56,6 @@ int main()
 		for (int i : chain(range(1, 4), range(5, 8)))
 		{
 			str += to_string(i);
-			cout << i << endl;
 		}
 		testcase.CHECK_OUTPUT(str, "123567");
 
@@ -69,33 +68,44 @@ int main()
 		testcase.CHECK_OUTPUT(str, "abcdhello");
 
 		testcase.setname("tests for zip");
+		stringstream ss;
 		// first test range and string
 		str = "";
 		for (auto pair : zip(range(1, 6), string("hello")))
 		{
 
-			str += to_string(pair);
+			// str += to_string(pair);
+			ss << pair;
 		}
-		// second test of zipping two zips
+		ss >> str;
 		testcase.CHECK_OUTPUT(str, "1,h2,e3,l4,l5,o");
+
+
+		// second test of zipping two zips
+		ss.clear();
 		str = "";
 		for (auto pair : zip(zip(range(1, 4), string("xyz")), zip(string("abc"), range(6, 9))))
 		{
-			str += pair;
+			ss << pair;
 		}
+		ss >> str;
 		testcase.CHECK_OUTPUT(str, "1,x,a,62,y,b,73,z,c,8");
 
 		testcase.setname("product test");
+		ss.clear();
 		str = "";
 		for (auto pair : product(range(1, 4), string("hello")))
 		{
-			str += pair;
+			// str += pair;
+		ss << pair;
 		}
-		testcase.CHECK_OUTPUT(str, "1,h  1,e  1,l  1,l  1,o  2,h  2,e  2,l  2,l  2,o  3,h  3,e  3,l  3,l  3,o");
+		ss >> str;
+		testcase.CHECK_OUTPUT(str, "1,h1,e1,l1,l1,o2,h2,e2,l2,l2,o3,h3,e3,l3,l3,o");
 
 		testcase.setname("powerset tests");
 		// first test
 		str = "";
+		// ss.clear();
 		for (auto subset : powerset(range(1, 4)))
 		{
 			str += subset;

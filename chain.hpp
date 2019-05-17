@@ -8,8 +8,8 @@ class chainIt
 {
 
 private:
-    const pair<T,T> first;
-    const pair<U,U> second;
+     pair<T,T> first;
+     pair<U,U> second;
 
 public:
     chainIt(pair<T,T> a, pair<U,U> b) : first(a), second(b){}
@@ -100,10 +100,10 @@ public:
 template <typename T, typename U>
 auto chain(T first, U second)
 {
-    pair<decltype(first.begin()), decltype(first.end())> firstP(first.begin(), first.end());
-    pair<decltype(second.begin()), decltype(second.end())> secondP(second.begin(), second.end());
+    pair firstP(first.begin(),first.end());
+    pair secondP(second.begin(), second.end());
 
-    return chainIt<decltype(first.begin()), decltype(second.begin())>(firstP, secondP);
+    return chainIt (firstP,secondP);
 }
 
 } // namespace itertools

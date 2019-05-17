@@ -5,34 +5,81 @@ using namespace std;
 namespace itertools
 {
 template <typename T, typename U>
-class zip
+class zipIt
 {
+
 private:
-    T first;
-    U second;
+    pair<T,U> first;
+    pair<T,U> second;
+
+public:
+    zipIt(pair<T, U> &a, pair<T, U> &b) : first(a), second(b) {}
+
     class iterator
     {
     private:
-        T first;
-        U second;
+        pair<T, U> it;
 
     public:
-        iterator(T a, U b) : first(a), second(b) {}
-    
+        iterator(pair<T, U> &other) : it(other) {}
+
+        pair<T, U> &operator*()
+        {
+            return it;
+        }
+        bool operator==(const iterator &other) const
+        {
+            return it.first == other.it.first;
+        }
+        bool operator!=(const iterator &other) const
+        {
+            return it.first != other.it.first;
+        }
+        iterator &operator=(const iterator &other)
+        {
+            this->it.first = other.it.first;
+            this->it.second = other.it.second;
+            return *this;
+        }
+        iterator &operator++() 
+        {
+            it.first++;
+            it.second++;
+            return *this;
+        }
+        const iterator operator++(int) 
+        {
+            iterator tmp = *this;
+            it.first++;
+            it.second++;
+            return tmp;
+        }
     };
 
 public:
-    zip(T a, U b) : first(a), second(b)
-    {
-    }
     auto begin()
     {
-        return first.begin();
+        return iterator(first);
     }
     auto end()
     {
-        return first.begin();
+        return iterator(second);
     }
 };
 
-}; // namespace itertools
+template <typename T, typename U>
+auto zip(T firstP, U secondP)
+{
+    pair first(firstP.begin(), secondP.begin());
+    pair second(firstP.end(),secondP.end());
+    return zipIt(first, second);
+}
+
+} // namespace itertools
+
+template <typename T, typename U>
+ostream &operator<<(ostream &os, std::pair<T, U> &p)
+{
+    os << *p.first<< ","<< *p.second;
+    return os;
+}
