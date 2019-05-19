@@ -7,7 +7,7 @@ namespace itertools
 {
 
 template <typename T, typename U>
-class productIt
+class Product
 {
 
 private:
@@ -15,7 +15,7 @@ private:
     pair<T, U> second;
 
 public:
-    productIt(pair<T, U> &a, pair<T, U> &b) : first(a), second(b) {}
+    Product(pair<T, U> &input1, pair<T, U> &input2) : first(input1), second(input2) {}
 
     class iterator
     {
@@ -24,63 +24,63 @@ public:
         pair<U, U> secondP;
 
     public:
-        iterator(pair<T, U> a, pair<U, U> b) : firstP(a), secondP(b) {}
+        iterator(pair<T, U> input1, pair<U, U> input2) : firstP(input1), secondP(input2) {}
 
         pair<T, U> &operator*()
         {
             return firstP;
         }
 
-        bool operator==(const iterator &other) const
+        // bool operator==(const iterator &input) const
+        // {
+        //     return firstP.first == input.firstP.first;
+        // }
+
+        bool operator!=(const iterator &input) const
         {
-            return firstP.first == other.firstP.first;
+            return firstP.first != input.firstP.first;
         }
 
-        bool operator!=(const iterator &other) const
-        {
-            return firstP.first != other.firstP.first;
-        }
-
-        iterator &operator=(const iterator &other)
-        {
-            this->firstP.first = other.firstP.first;
-            this->firstP.second = other.firstP.second;
-            this->secondP.first = other.secondP.first;
-            this->secondP.second = other.secondP.second;
-            return *this;
-        }
+        // iterator &operator=(const iterator &input)
+        // {
+        //     this->firstP.first = input.firstP.first;
+        //     this->firstP.second = input.firstP.second;
+        //     this->secondP.first = input.secondP.first;
+        //     this->secondP.second = input.secondP.second;
+        //     return *this;
+        // }
 
         iterator &operator++()
         {
             firstP.second++;
             if (firstP.second == secondP.second)
             {
-                firstP.first++;
+                ++firstP.first;
                 firstP.second = secondP.first;
             }
             return *this;
         }
 
-        const iterator operator++(int)
-        {
-            iterator temp = *this;
-            firstP.second++;
-            if (firstP.second == secondP.second)
-            {
-                firstP.first++;
-                firstP.second = secondP.first;
-            }
-            return temp;
-        }
+        // const iterator operator++(int)
+        // {
+        //     iterator temp = *this;
+        //     firstP.second++;
+        //     if (firstP.second == secondP.second)
+        //     {
+        //         firstP.first++;
+        //         firstP.second = secondP.first;
+        //     }
+        //     return temp;
+        // }
     };
 
 public:
-    auto begin()
+    iterator begin()
     {
         return iterator(first, pair<U, U>(first.second, second.second));
     }
 
-    auto end()
+    iterator end()
     {
         return iterator(pair<T, U>(second.first, second.second), pair<U, U>(first.second, second.second));
     }
@@ -92,7 +92,7 @@ auto product(T TProduct, U UProduct)
     pair first(TProduct.begin(),UProduct.begin());
     pair second (TProduct.end(), UProduct.end());
 
-    return productIt(first,second);
+    return Product(first,second);
 }
 
 } // namespace itertools

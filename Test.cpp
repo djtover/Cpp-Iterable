@@ -105,18 +105,23 @@ int main()
 		testcase.setname("powerset tests");
 		// first test
 		str = "";
-		// ss.clear();
+		ss.clear();
 		for (auto subset : powerset(range(1, 4)))
 		{
-			str += subset;
+			// str += subset;
+			ss<< subset;
 		}
+		ss>>str;
 		testcase.CHECK_OUTPUT(str, "{}{1}{2}{1,2}{3}{1,3}{2,3}{1,2,3}");
 		// second test
 		str = "";
+		ss.clear();
 		for (auto subset : powerset(chain(range('a', 'c'), range('x', 'z'))))
 		{
-			str += subset;
+			ss<<subset;
+			// str += subset;
 		}
+		ss >> str;
 		testcase.CHECK_OUTPUT(str, "{}{a}{b}{a,b}{x}{a,x}{b,x}{a,b,x}{y}{a,y}{b,y}{a,b,y}{x,y}{a,x,y}{b,x,y}{a,b,x,y}");
 		grade = testcase.grade();
 		right = testcase.right();

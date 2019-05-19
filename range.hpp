@@ -8,14 +8,14 @@ namespace itertools
 {
 
 template <typename T>
-class rangeIt
+class Range
 {
 private:
     T _begin;
     T _end;
 
 public:
-    rangeIt(T &a, T &b) : _begin(a), _end(b){};
+    Range(T &input1, T &input2) : _begin(input1), _end(input2){};
 
     class iterator
     {
@@ -32,29 +32,29 @@ public:
         {
             return valuePtr;
         }
-        bool operator==(const iterator &other) const
+        // bool operator==(const iterator &input) const
+        // {
+        //     return valuePtr == input.valuePtr;
+        // }
+        bool operator!=(const iterator &input) const
         {
-            return valuePtr == other.valuePtr;
-        }
-        bool operator!=(const iterator &other) const
-        {
-            return valuePtr != other.valuePtr;
+            return valuePtr != input.valuePtr;
         }
 
-        iterator &operator=(const iterator &other)
-        {
-            valuePtr = other.valuePtr;
-            return *this;
-        }
-        const iterator operator++(int)
-        {
-            iterator tmp = *this;
-            valuePtr++;
-            return tmp;
-        }
+        // iterator &operator=(const iterator &input)
+        // {
+        //     valuePtr = input.valuePtr;
+        //     return *this;
+        // }
+        // const iterator operator++(int)
+        // {
+        //     iterator tmp = *this;
+        //     valuePtr++;
+        //     return tmp;
+        // }
         iterator &operator++()
         {
-            valuePtr++;
+            ++valuePtr;
             return *this;
         }
     };
@@ -71,9 +71,9 @@ public:
 };
 
 template <typename T>
-rangeIt<T> range(T s, T e)
+Range<T> range(T s, T e)
 {
-    return rangeIt<T>(s, e);
+    return Range<T>(s, e);
 }
 
 } // namespace itertools

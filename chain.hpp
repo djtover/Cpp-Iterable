@@ -4,7 +4,7 @@ using namespace std;
 namespace itertools
 {
 template <typename T, typename U>
-class chainIt
+class Chain
 {
 
 private:
@@ -12,7 +12,7 @@ private:
      pair<U,U> second;
 
 public:
-    chainIt(pair<T,T> a, pair<U,U> b) : first(a), second(b){}
+    Chain(pair<T,T> input1, pair<U,U> input2) : first(input1), second(input2){}
 
     class iterator
     {
@@ -22,7 +22,7 @@ public:
         pair<U,U> secondP;
 
     public:
-        iterator(pair<T,T> a, pair<U,U> b, bool flag) : firstP(a), secondP(b), inFirst(flag){};
+        iterator(pair<T,T> input1, pair<U,U> input2, bool flag) : firstP(input1), secondP(input2), inFirst(flag){};
 
         auto &operator*()
         {
@@ -32,66 +32,66 @@ public:
             return *secondP.first;
         }
 
-        bool operator==(const iterator &other) const
-        {
-            if (inFirst){
-                return firstP.first == other.firstP.second;
-            }
-            return secondP.first == other.secondP.second;
-        }
+        // bool operator==(const iterator &input) const
+        // {
+        //     if (inFirst){
+        //         return firstP.first == input.firstP.second;
+        //     }
+        //     return secondP.first == input.secondP.second;
+        // }
 
         
 
-        iterator &operator=(const iterator &other)
-        {
-            firstP = other.firstP;
-            secondP = other.secondP;
-            inFirst = other.inFirst;
-            return *this;
-        }
+        // iterator &operator=(const iterator &input)
+        // {
+        //     firstP = input.firstP;
+        //     secondP = input.secondP;
+        //     inFirst = input.inFirst;
+        //     return *this;
+        // }
 
-        bool operator!=(const iterator &other) const
+        bool operator!=(const iterator &input) const
         {
 
             if (inFirst){
-                return firstP.first != other.firstP.second;
+                return firstP.first != input.firstP.second;
 
             }
-            return secondP.first != other.secondP.second;
+            return secondP.first != input.secondP.second;
         }
         iterator &operator++()
         {
             if (inFirst)
             {
-                if (++firstP.first == firstP.second){
+                if (!(++firstP.first != firstP.second)){
                     inFirst = false;
                 }
 
                 return *this;
             }
-            secondP.first++;
+            ++secondP.first;
             return *this;
         }
-        const iterator operator++(int)
-        {
-            iterator temp = *this;
-            if (inFirst)
-            {
-                if (++firstP.first == firstP.second)
-                    inFirst = false;
-                return *this;
-            }
-            secondP.first++;
-            return temp;
-        }
+        // const iterator operator++(int)
+        // {
+        //     iterator temp = *this;
+        //     if (inFirst)
+        //     {
+        //         if (++firstP.first == firstP.second)
+        //             inFirst = false;
+        //         return *this;
+        //     }
+        //     secondP.first++;
+        //     return temp;
+        // }
     };
 public:
-    auto begin() 
+    iterator begin() 
     {
         return iterator{first, second, true};
     }
 
-    auto end() 
+    iterator end() 
     {
         return iterator{first, second, false};
     }
@@ -103,7 +103,7 @@ auto chain(T first, U second)
     pair firstP(first.begin(),first.end());
     pair secondP(second.begin(), second.end());
 
-    return chainIt (firstP,secondP);
+    return Chain (firstP,secondP);
 }
 
 } // namespace itertools

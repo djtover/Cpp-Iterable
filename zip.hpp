@@ -5,7 +5,7 @@ using namespace std;
 namespace itertools
 {
 template <typename T, typename U>
-class zipIt
+class Zip
 {
 
 private:
@@ -13,7 +13,7 @@ private:
     pair<T,U> second;
 
 public:
-    zipIt(pair<T, U> &a, pair<T, U> &b) : first(a), second(b) {}
+    Zip(pair<T, U> &input1, pair<T, U> &input2) : first(input1), second(input2) {}
 
     class iterator
     {
@@ -21,47 +21,47 @@ public:
         pair<T, U> it;
 
     public:
-        iterator(pair<T, U> &other) : it(other) {}
+        iterator(pair<T, U> &input) : it(input) {}
 
         pair<T, U> &operator*()
         {
             return it;
         }
-        bool operator==(const iterator &other) const
+        // bool operator==(const iterator &input) const
+        // {
+        //     return it.first == input.it.first;
+        // }
+        bool operator!=(const iterator &input) const
         {
-            return it.first == other.it.first;
+            return it.first != input.it.first;
         }
-        bool operator!=(const iterator &other) const
-        {
-            return it.first != other.it.first;
-        }
-        iterator &operator=(const iterator &other)
-        {
-            this->it.first = other.it.first;
-            this->it.second = other.it.second;
-            return *this;
-        }
+        // iterator &operator=(const iterator &input)
+        // {
+        //     this->it.first = input.it.first;
+        //     this->it.second = input.it.second;
+        //     return *this;
+        // }
         iterator &operator++() 
         {
-            it.first++;
-            it.second++;
+            ++it.first;
+            ++it.second;
             return *this;
         }
-        const iterator operator++(int) 
-        {
-            iterator tmp = *this;
-            it.first++;
-            it.second++;
-            return tmp;
-        }
+        // const iterator operator++(int) 
+        // {
+        //     iterator tmp = *this;
+        //     it.first++;
+        //     it.second++;
+        //     return tmp;
+        // }
     };
 
 public:
-    auto begin()
+    iterator begin()
     {
         return iterator(first);
     }
-    auto end()
+    iterator end()
     {
         return iterator(second);
     }
@@ -72,7 +72,7 @@ auto zip(T firstP, U secondP)
 {
     pair first(firstP.begin(), secondP.begin());
     pair second(firstP.end(),secondP.end());
-    return zipIt(first, second);
+    return Zip(first, second);
 }
 
 } // namespace itertools
