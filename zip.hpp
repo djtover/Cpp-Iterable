@@ -1,90 +1,3 @@
-// #pragma once
-// #include <iostream>
-// using namespace std;
-
-// namespace itertools
-// {
-// template <typename T, typename U>
-// class Zip
-// {
-
-// private:
-//     pair<T,U> first;
-//     pair<T,U> second;
-
-// public:
-//     Zip(pair<T, U> &input1, pair<T, U> &input2) : first(input1), second(input2) {}
-
-//     class iterator
-//     {
-//     private:
-//         pair<T, U> it;
-
-//     public:
-//         iterator(pair<T, U> &input) : it(input) {}
-
-//         pair<T, U> &operator*()
-//         {
-//             return it;
-//         }
-//         // bool operator==(const iterator &input) const
-//         // {
-//         //     return it.first == input.it.first;
-//         // }
-//         bool operator!=(const iterator &input) const
-//         {
-//             return it.first != input.it.first;
-//         }
-//         // iterator &operator=(const iterator &input)
-//         // {
-//         //     this->it.first = input.it.first;
-//         //     this->it.second = input.it.second;
-//         //     return *this;
-//         // }
-//         iterator &operator++() 
-//         {
-//             ++it.first;
-//             ++it.second;
-//             return *this;
-//         }
-//         // const iterator operator++(int) 
-//         // {
-//         //     iterator tmp = *this;
-//         //     it.first++;
-//         //     it.second++;
-//         //     return tmp;
-//         // }
-//     };
-
-// public:
-//     iterator begin()
-//     {
-//         return iterator(first);
-//     }
-//     iterator end()
-//     {
-//         return iterator(second);
-//     }
-// };
-
-// template <typename T, typename U>
-// auto zip(T firstP, U secondP)
-// {
-//     pair first(firstP.begin(), secondP.begin());
-//     pair second(firstP.end(),secondP.end());
-//     return Zip(first, second);
-// }
-
-// } // namespace itertools
-
-// template <typename T, typename U>
-// ostream &operator<<(ostream &os, std::pair<T, U> &p)
-// {
-//     os << *p.first<< ","<< *p.second;
-//     return os;
-// }
-
-
 #pragma once
 #include <iostream>
 using namespace std;
@@ -92,34 +5,81 @@ using namespace std;
 namespace itertools
 {
 template <typename T, typename U>
-class zip
+class Zip
 {
+
 private:
-    T first;
-    U second;
+    pair<T,U> first;
+    pair<T,U> second;
+
+public:
+    Zip(pair<T, U> &input1, pair<T, U> &input2) : first(input1), second(input2) {}
+
     class iterator
     {
     private:
-        T first;
-        U second;
+        pair<T, U> it;
 
     public:
-        iterator(T a, U b) : first(a), second(b) {}
-    
+        iterator(pair<T, U> &input) : it(input) {}
+
+        pair<T, U> &operator*()
+        {
+            return it;
+        }
+        // bool operator==(const iterator &input) const
+        // {
+        //     return it.first == input.it.first;
+        // }
+        bool operator!=(const iterator &input) const
+        {
+            return it.first != input.it.first;
+        }
+        // iterator &operator=(const iterator &input)
+        // {
+        //     this->it.first = input.it.first;
+        //     this->it.second = input.it.second;
+        //     return *this;
+        // }
+        iterator &operator++() 
+        {
+            ++it.first;
+            ++it.second;
+            return *this;
+        }
+        // const iterator operator++(int) 
+        // {
+        //     iterator tmp = *this;
+        //     it.first++;
+        //     it.second++;
+        //     return tmp;
+        // }
     };
 
 public:
-    zip(T a, U b) : first(a), second(b)
+    iterator begin()
     {
+        return iterator(first);
     }
-    auto begin()
+    iterator end()
     {
-        return first.begin();
-    }
-    auto end()
-    {
-        return first.begin();
+        return iterator(second);
     }
 };
 
-}; // namespace itertools
+template <typename T, typename U>
+auto zip(T firstP, U secondP)
+{
+    pair first(firstP.begin(), secondP.begin());
+    pair second(firstP.end(),secondP.end());
+    return Zip(first, second);
+}
+
+} // namespace itertools
+
+template <typename T, typename U>
+ostream &operator<<(ostream &os, std::pair<T, U> &p)
+{
+    os << *p.first<< ","<< *p.second;
+    return os;
+}
